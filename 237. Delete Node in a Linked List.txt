@@ -1,0 +1,26 @@
+//c++
+void deleteNode(ListNode* node) {
+    auto next = node->next;
+    *node = *next;
+    delete next;
+}
+
+
+//python
+def deleteNode(self, node):
+    node.val = node.next.val
+    node.next = node.next.next
+	
+	
+//js
+var deleteNode = function(node) {
+    node.val = node.next.val;
+    node.next = node.next.next;
+};
+
+//c
+void deleteNode(struct ListNode* node) {
+    struct ListNode* next = node->next;
+    *node = *next;
+    free(next);
+}

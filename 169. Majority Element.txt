@@ -1,0 +1,70 @@
+//Sorting
+public class Solution {
+    public int majorityElement(int[] num) {
+
+        int major=num[0], count = 1;
+        for(int i=1; i<num.length;i++){
+            if(count==0){
+                count++;
+                major=num[i];
+            }else if(major==num[i]){
+                count++;
+            }else count--;
+            
+        }
+        return major;
+    }
+}
+
+//hash table
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        unordered_map<int, int> counter;
+        for (int num : nums) {
+            if (++counter[num] > nums.size() / 2) {
+                return num;
+            }
+        }
+        return 0;
+    }
+};
+
+
+//Moore Voting Algorithm
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int counter = 0, majority;
+        for (int num : nums) {
+            if (!counter) {
+                majority = num;
+            }
+            counter += num == majority ? 1 : -1;
+        }
+        return majority;
+    }
+};
+
+
+
+//Randomization
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int n = nums.size(), candidate, counter;
+        srand(unsigned(time(NULL)));
+        while (true) {
+            candidate = nums[rand() % n], counter = 0;
+            for (int num : nums) {
+                if (num == candidate) {
+                    counter++;
+                }
+            }
+            if (counter > n / 2) {
+                break;
+            }
+        }
+        return candidate;
+    }
+};

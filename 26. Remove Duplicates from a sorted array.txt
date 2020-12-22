@@ -1,0 +1,59 @@
+class Solution {
+    public:
+    int removeDuplicates(int A[], int n) {
+        if(n < 2) return n;
+        int id = 1;
+        for(int i = 1; i < n; ++i) 
+            if(A[i] != A[i-1]) A[id++] = A[i];
+        return id;
+    }
+};
+
+
+int removeDuplicates(vector<int>& nums) {
+    int i = !nums.empty();
+    for (int n : nums)
+        if (n > nums[i-1])
+            nums[i++] = n;
+    return i;
+}
+
+
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var removeDuplicates = function(nums) {
+    const size = nums.length;
+    if(size==0) return 0;
+    let slowP = 0;
+    for (let fastP = 1; fastP < size; fastP++) {
+        if (nums[fastP] !== nums[slowP]) {
+            slowP++;
+            nums[slowP] = nums[fastP]
+        }
+    }
+    return slowP + 1;
+};
+
+
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int len = nums.size();
+        if(len==0)return 0;
+        
+        int slow=0,fast=1;
+        
+        while(fast<len){
+            if(nums[slow]!=nums[fast]){
+                slow++;
+                nums[slow]=nums[fast];
+            }
+            fast++;
+        }
+        return slow+1;
+        
+    }
+};

@@ -1,0 +1,80 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+
+
+// we can determine if a node is a duplicate by comparing its value to the node after it in the list. If it is a duplicate, we change the next pointer of the current node so that it skips the next node and points directly to the one after the next node.
+
+//java
+public ListNode deleteDuplicates(ListNode head) {
+    ListNode current = head;
+    while (current != null && current.next != null) {
+        if (current.next.val == current.val) {
+            current.next = current.next.next;
+        } else {
+            current = current.next;
+        }
+    }
+    return head;
+}
+
+
+//c++
+ListNode* Solution::deleteDuplicates(ListNode* A) {
+    ListNode *prev = A;
+    ListNode *curr = A->next;
+    
+    while(curr != NULL){
+        if(prev->val == curr->val){
+            prev->next = curr->next;   
+        } else {
+            prev = curr;
+        }
+		curr = curr->next;
+    }
+    return A;
+}
+
+
+
+//c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::deleteDuplicates(ListNode* A) {
+    /* Pointer to traverse the linked list */
+    ListNode* current = A;
+    ListNode* next_next=NULL;
+    if (current == NULL) 
+       return A;
+    while (current->next != NULL) 
+    {
+       if (current->val == current->next->val) 
+       {             
+           next_next = current->next->next;
+           current->next = next_next;  
+       }
+       else
+       {
+          current = current->next; 
+       }
+    }
+    return A;
+}
+
+1.current.next was a duplicate of current. In this case, the duplicate node at current.next is deleted, and current stays pointing to the same node as before. Therefore, the condition still holds; there are still no duplicates up to current.
+
+2.current.next was not a duplicate of current (and, because the list is sorted, current.next is also not a duplicate of any other element appearing before current). In this case, current moves forward one step to point to current.next. Therefore, the condition still holds; there are no duplicates up to current.

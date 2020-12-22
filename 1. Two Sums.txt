@@ -1,0 +1,63 @@
+https://leetcode.com/problems/two-sum
+
+The easiest thing to think of is brute force enumeration. We can use a two-layer for loop to traverse each element and find the target element that meets the condition. However, the time complexity is O (N ^ 2), the space complexity is O (1), and the time complexity is high. We need to find a way to optimize it. We can add a Map to record the number that has been traversed and its corresponding index value. In this way, when traversing a new number, query the Map to see if the difference between target and the number has already appeared in the previous number. If it has occurred, then the answer has already been obtained and there is no need to proceed further
+
+#bruteForce
+public int[] twoSum(int[] nums, int target) {
+    for (int i = 0; i < nums.length; i++) {
+        for (int j = i + 1; j < nums.length; j++) {
+            if (nums[j] == target - nums[i]) {
+                return new int[] { i, j };
+            }
+        }
+    }
+    throw new IllegalArgumentException("No two sum solution");
+}
+
+
+//jsOptimal
+/** 
+* @param { number [] } nums 
+* @param { number } target 
+* @return { number [] } 
+*/ 
+const  twoSum  =  function  ( nums ,  target )  { 
+    const  map  =  new  Map ( ) ; 
+    for  ( let  i  =  0 ;  i  <  nums . length ;  i ++ )  { 
+        const diff  =  target  -  nums [ i ] ; 
+        if  ( map . has ( diff ) )  { 
+            return  [ map . get ( diff ) ,  i ] ; 
+        } 
+        map . set ( nums [ i ] ,  i ) ; 
+    } 
+}
+
+
+
+#C++
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int, int> cache;
+        vector<int> answer;
+        
+        for (size_t i = 0; i < nums.size(); ++i)
+        {
+            int needed_num = target - nums[i];
+            
+            if (cache.find(needed_num) != cache.end())
+            {
+                // We found it
+                answer.push_back(cache[needed_num]);
+                answer.push_back(i);
+                return answer;
+            }
+            else
+            {
+                // Didn't find it
+                cache.insert(make_pair(nums[i], i));
+            }
+        }
+        return answer;
+    }
+};

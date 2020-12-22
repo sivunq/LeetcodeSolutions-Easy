@@ -1,0 +1,80 @@
+//sub-optimal
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int i,pos=0,zeros=0;
+        for (i=0;i <nums.size();i++){
+            if(nums[i]==0)zeros++;
+            else{
+                nums[pos]=nums[i];
+                pos++;
+            }
+        }
+        
+        i=nums.size()-1;
+        while(zeros>0){
+            nums[i]=0;
+            i--;
+            zeros--;
+        }
+    }
+};
+
+
+
+//optimal
+All elements before the slow pointer (lastNonZeroFoundAt) are non-zeroes.
+All elements between the current and slow pointer are zeroes.
+
+void moveZeroes(vector<int>& nums) {
+    for (int lastNonZeroFoundAt = 0, cur = 0; cur < nums.size(); cur++) {
+        if (nums[cur] != 0) {
+            swap(nums[lastNonZeroFoundAt++], nums[cur]);
+        }
+    }
+}
+
+
+//optimal simplified:
+void moveZeroes(vector<int>& nums) {
+    int last = 0, cur = 0;
+    
+    while(cur < nums.size()) {
+        if(nums[cur] != 0) {
+            swap(nums[last], nums[cur]);
+            last++;
+        }
+        
+        cur++;
+    }
+}
+
+
+
+
+//sub-optimal
+void moveZeroes(vector<int>& nums) {
+    int lastNonZeroFoundAt = 0;
+    // If the current element is not 0, then we need to
+    // append it just in front of last non 0 element we found. 
+    for (int i = 0; i < nums.size(); i++) {
+        if (nums[i] != 0) {
+            nums[lastNonZeroFoundAt++] = nums[i];
+        }
+    }
+ 	// After we have finished processing new elements,
+ 	// all the non-zero elements are already at beginning of array.
+ 	// We just need to fill remaining array with 0's.
+    for (int i = lastNonZeroFoundAt; i < nums.size(); i++) {
+        nums[i] = 0;
+    }
+}
+
+
+//
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        fill(remove(nums.begin(), nums.end(),0), nums.end(), 0);
+    }
+};

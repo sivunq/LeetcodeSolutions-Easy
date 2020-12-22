@@ -1,0 +1,62 @@
+bool hasCycle(ListNode *head) {
+        ListNode *slow=head,*fast=head;
+        
+        while(slow!=NULL && fast!=NULL && fast->next!=NULL) {
+            
+            slow = slow->next;               //Slow moves by 1 step
+            fast = fast->next->next;        //Fast moves by two steps
+            
+            if(slow==fast) //If they meet then there is a loop
+                return true;
+        }
+        
+        return false; //No loop
+    }
+	
+	
+	
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        ListNode* slow = head;
+		ListNode* fast = head;
+		while (fast && fast->next){
+			fast = fast->next->next;
+			slow = slow->next;
+			if (slow == fast)
+				return true;
+		}
+		return false;
+    }
+};
+	
+	
+Use two pointers, walker and runner.
+walker moves step by step. runner moves two steps at time.
+if the Linked List has a cycle walker and runner will meet at some
+point.
+public boolean hasCycle(ListNode head) {
+    if(head==null) return false;
+    ListNode walker = head;
+    ListNode runner = head;
+    while(runner.next!=null && runner.next.next!=null) {
+        walker = walker.next;
+        runner = runner.next.next;
+        if(walker==runner) return true;
+    }
+    return false;
+}
+
+
+
+
+def hasCycle(self, head):
+    try:
+        slow = head
+        fast = head.next
+        while slow is not fast:
+            slow = slow.next
+            fast = fast.next.next
+        return True
+    except:
+        return False

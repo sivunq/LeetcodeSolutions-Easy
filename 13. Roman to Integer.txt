@@ -1,0 +1,140 @@
+class Solution {
+public:
+    int romanToInt(string s) {
+        map<char,int> m;
+        m['I'] = 1;
+        m['V'] = 5;
+        m['X'] = 10;
+        m['L'] = 50;
+        m['C'] = 100;
+        m['D'] = 500;
+        m['M'] = 1000;
+
+        int ans = 0, i = 0, N = s.length();
+        while(i < N-1){
+            if(m[s[i]]< m[s[i+1]]) ans-=m[s[i]];
+            else ans+=m[s[i]];
+            i++;
+        }
+        ans+=m[s[i]];
+        return ans;
+        
+    }
+};
+
+
+
+int romanToInt(string s) {
+	unordered_map<char, int> mp = {{'M', 1000}, {'D', 500}, {'C', 100}, {'L', 50}, {'X', 10}, {'V', 5}, {'I', 1}};
+	int res = mp[s.back()];
+	for(int i = 0; i < s.size() - 1; i++) {
+		if(mp[s[i]] < mp[s[i + 1]]) res -= mp[s[i]];
+		else res += mp[s[i]];
+	}
+	return res;
+}
+
+
+
+
+class Solution {
+public:
+    int romanToInt(string s) {
+        int ret = 0;        // to store the return value
+        int temp = 0;       // to store the previous value
+        
+        for (size_t i = 0; i < s.size(); i++) {
+            char curr = s[i];
+            int pos = 0;     // to store the current value
+            
+            switch(curr) {
+                case 'I': pos = 1; break;
+                case 'V': pos = 5; break;
+                case 'X': pos = 10; break;
+                case 'L': pos = 50; break;
+                case 'C': pos = 100; break;
+                case 'D': pos = 500; break;
+                case 'M': pos = 1000; break;
+                default: return 0;
+            }
+            
+            ret += pos;
+            if (temp < pos)
+                ret -= temp*2;     // ex: IV, ret = 1 + 5 - 1*2 = 4
+            temp = pos;
+        }
+        
+        return ret;
+    }
+};
+
+
+
+
+
+int romanToInt(string s) {
+    if (s.empty()) return 0;
+    
+    int roman[24] = {};
+    roman['I' - 'A'] = 1;
+    roman['V' - 'A'] = 5;
+    roman['X' - 'A'] = 10;
+    roman['L' - 'A'] = 50;
+    roman['C' - 'A'] = 100;
+    roman['D' - 'A'] = 500;
+    roman['M' - 'A'] = 1000;
+    
+    auto sum = 0;
+    auto right = roman[s.front() - 'A'];
+    for (int i = 1; i < s.size(); ++i) {
+        auto curr = right;
+        right = roman[s[i] - 'A'];
+        if (right > curr) 
+            sum -= curr;
+        else 
+            sum += curr;
+    }
+    
+    return sum + right;
+}
+
+
+
+
+
+int fun(const char a)
+{
+    if(a == 'I') return 1;
+    if(a == 'V') return 5;
+    if(a == 'X') return 10;
+    if(a == 'L') return 50;
+    if(a == 'C') return 100;
+    if(a == 'D') return 500;
+    if(a == 'M') return 1000;
+    
+    return 0;
+}
+
+public:
+
+int romanToInt(std::string s) 
+{
+    int res = 0;
+    int dim = s.size();
+    
+    for(int i = 0; i < dim; i++)
+    {
+        if(i < (dim - 1) && 
+           fun(s[i]) < fun(s[i+1]))
+        {
+            res -= fun(s[i]);
+        }
+        else
+        {
+            res += fun(s[i]);
+        }
+    }
+    
+    return res;
+}
+};

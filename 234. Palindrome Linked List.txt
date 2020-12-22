@@ -1,0 +1,152 @@
+class Solution {
+public:
+        bool isPalindrome(ListNode* head) {
+	
+        stack<ListNode*> nodeStack; // A stack is first in last out, traversing a list is quasi-first in first out
+		
+        ListNode* pHead = head;
+        while (pHead) {
+            nodeStack.push(pHead);
+            pHead = pHead->next;
+        }
+        
+        while (head) {
+            if (head->val != nodeStack.top()->val) { // We are going forwards on the linked list and backwards via a stack.
+                return false;  // If the values differ, well it isn't a palindrome.
+            }
+            nodeStack.pop(); // Similar to head->next but in reverse.
+            head = head->next;
+        }
+        return true; // If we get to the end of the linked list and the values in the stack didn't differ from those
+		// of the linked list, then it is a palindrome.
+    }
+};
+
+
+//Reverse soln
+Move: fast pointer goes to the end, and slow goes to the middle.
+Reverse: the right half is reversed, and slow pointer becomes the 2nd head.
+Compare: run the two pointers head and slow together and compare.
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        if(head==NULL||head->next==NULL)
+            return true;
+        ListNode* slow=head;
+        ListNode* fast=head;
+        while(fast->next!=NULL && fast->next->next!=NULL){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        slow->next=reverseList(slow->next);
+        slow=slow->next;
+        while(slow!=NULL){
+            if(head->val!=slow->val)
+                return false;
+            head=head->next;
+            slow=slow->next;
+        }
+        return true;
+    }
+    ListNode* reverseList(ListNode* head) {
+        ListNode* pre=NULL;
+        ListNode* next=NULL;
+        while(head!=NULL){
+            next=head->next;
+            head->next=pre;
+            pre=head;
+            head=next;
+        }
+        return pre;
+    }
+};
+
+
+bool isPalindrome(ListNode* head) {
+    if (!head || !head->next) return true;
+    ListNode* slow = head;
+    ListNode* fast = head->next;
+    
+    //find midlle of the list
+    while (fast && fast->next)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    
+    //revert the list
+    ListNode* prev = slow;
+    ListNode* p = slow->next;
+    slow->next = nullptr; 
+    
+    while (p)
+    {
+        ListNode* tmp = p->next;
+        p->next = prev;
+        prev = p;
+        p = tmp;
+    }
+    
+    //judge is palindrome
+    ListNode* l = head;
+    ListNode* r = prev;
+    while (l && r)
+    {
+        if (l->val != r->val)
+            return false;
+        l = l->next;
+        r = r->next;
+    }
+    
+    return true;
+}
+
+
+
+
+//O(n),O(1)
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        ListNode *slow = head, *fast = head, *prev=nullptr, *next_node=nullptr, *dummy=nullptr;
+        dummy = prev = new ListNode(-1);
+		
+		// find middle node
+        while (fast && fast->next) {
+            fast = fast->next->next;
+            next_node = slow->next;
+            slow->next = prev;
+            prev = slow;
+            slow = next_node;
+        }
+		// skip middle node if the length of linked list is odd
+        if (fast) slow = slow->next;
+		
+		// check equality
+        while (slow && prev && slow->val == prev->val) {
+            slow = slow->next;
+            prev = prev->next;
+        }
+        return !slow && prev == dummy;
+    }
+};
+
+
+
+//Recursive
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        return check(head, head);
+    }
+    
+    bool check(ListNode*& head, ListNode* p) {
+        if(!p) { return true; }
+        bool isPal = check(head, p->next);
+        if(head->val != p->val) {
+            return false;
+        }
+        head = head->next;
+        return isPal;
+    }
+};

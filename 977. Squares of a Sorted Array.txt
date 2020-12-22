@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        vector<int> res;
+        int lsq,rsq,len=nums.size(),i=0,j;
+        j=len-1;
+        
+        while(i<=j){
+            lsq=nums[i]*nums[i];
+            rsq=nums[j]*nums[j];    
+            
+            if(lsq<rsq){
+                res.push_back(lsq);
+                i++;
+            }
+            else {
+                res.push_back(rsq);
+                j--;
+            }
+        }
+        sort(res.begin(),res.end());
+        return res;
+        
+    }
+};
+
+
+vector<int> Solution::solve(vector<int> &A) {
+    int len= A.size();
+    vector <int> squares(len);
+    int left = 0;
+    int right = len-1;
+    int i=len-1;
+    while (left<=right){
+      int leftSquare = A[left] * A[left];
+      int rightSquare = A[right] * A[right];
+      if (leftSquare > rightSquare) {
+        squares[i--] = leftSquare;
+        left++;
+      } else {
+        squares[i--] = rightSquare;
+        right--;
+      }
+    }
+    return squares;
+}

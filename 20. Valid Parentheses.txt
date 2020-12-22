@@ -1,0 +1,85 @@
+https://leetcode.com/problems/valid-parentheses/description
+
+Use the stack to traverse the input string
+If the current character is the left half of the bracket, it is pushed onto the stack
+If you encounter the right half of the bracket, the classification discussion:
+1) If the stack is not empty and is the corresponding left half of the bracket, then remove the top element of the stack and continue the loop
+2) If the stack is empty at this time, it returns false directly
+3) If it is not the corresponding left half of the bracket, return false otherwise
+
+
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var isValid = function(s) {
+    const stack = [];
+    const mapper = {
+        '{': "}",
+        "[": "]",
+        "(": ")"
+    }
+    
+    for(let v of s) {
+        if (['(', '[', '{'].indexOf(v) > -1) {
+            stack.push(v);
+        } else {
+            const peak = stack.pop();
+            if (v !== mapper[peak]) {
+                return false;
+            }
+        }
+    }
+
+    if (stack.length > 0) return false;
+
+    return true;
+};
+
+
+
+#
+var  isValid  =  function  ( s )  { 
+  while  ( s . includes ( "[]" )  ||  s . includes ( "()" )  ||  s . includes ( "{}" ) )  { 
+    s  =  s . replace ( " []" ,  "" ) . replace ( "()" ,  "" ) . replace ( "{}" , "") ; 
+  } 
+  s  =  s . replace ( "[]" ,  "" ) . replace ( "()" ,  "" ) . replace ( "{}" ,  "" ) ; 
+  return  s . length  ===  0 ; 
+} ;
+
+
+
+
+
+//An interesting property about a valid parenthesis expression is that a sub-expression of a valid expression should also be a valid expression. (Not every sub-expression) e.g.
+
+  class Solution {
+  public:
+         bool isValid(string s) {
+    stack<char> stack;
+
+    if(s.length() == 0){
+        return true;
+    }
+    if(s.length() == 1){
+        return false;
+    }
+    
+    for(int i =0 ; i < s.length(); i++){
+        char c = s[i];
+        cout << c;
+        if(c == '}'|| c == ')' || c == ']'){
+            if(stack.size() == 0 ) return false;
+            if(c == '}' && stack.top() != '{') return false;
+            if(c == ')' && stack.top() != '(') return false;
+            if(c == ']' && stack.top() != '[') return false;
+            stack.pop();
+            
+         } else {
+            stack.push(c);
+        }
+    }
+    if(stack.size() == 0) return true;
+    return false;
+}
+};
